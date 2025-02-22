@@ -1,25 +1,18 @@
-import './ZombieFighters.css'
+
+import './ZombieFighters.css';
+
 const ZombieFighters = (props) => {
+  return (
+    <div className="fighter-card">
+      <img src={props.img} width="150" height="150" />
+      <ul>
+        <li>Name: {props.name}</li>
+        <li>Price: {props.price}</li>
+        <li>Strength: {props.strength}</li>
+        <li>Agility: {props.agility}</li>
+      </ul>
+    </div>
+  );
+};
 
-return(
-
-<>
-
-<div>
-
-<img src= {props.img}/>
-<ul>{props.key}</ul>
-    <ul>price : {props.price}</ul>
-<ul>Strength : {props.strength}</ul>
-    <ul>Agility : {props.agility}</ul>
-
-</div>
-
-
-</>
-
-)
-
-
-}
-export default ZombieFighters 
+export default ZombieFighters;

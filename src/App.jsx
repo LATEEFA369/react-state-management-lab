@@ -3,8 +3,6 @@ import './App.css'
 import { useState } from 'react'
 import ZombieFighters from './components/ ZombieFighters'
 
-const team = [];
-const money = 100 ;
 const zombieFighters = [
   {
     name: 'Survivor',
@@ -82,39 +80,63 @@ const App = () => {
 
   const [money, setMoney] = useState(100)
   const [team, setTeam] = useState([])
+  const [strength, setStrength] = useState (0)
+  const [agility, setAgility] = useState (0)
   
   const handleAddFighter = (fighter) => {
-    if (money >= fighter.price) {
-      setTeam([...team, fighter]) 
-      setMoney(money - fighter.price)
-    } else {
-      console.log("Not enough money")
-    }
+    money >= fighter.price 
+      ? (
+          setTeam([...team, fighter]),
+          setMoney(money - fighter.price),
+          setStrength(strength + fighter.strength),
+          setAgility(agility + fighter.agility)
+        )
+      : console.log("Not enough money");
   };
+
+  const handleRemoveFighter = (fighter) => {
+    const newTeam = team.filter((f) => f !== fighter);
+    setTeam(newTeam);
+    setMoney(money + fighter.price);
+    setStrength(newTeam.reduce((sum, f) => sum + f.strength, 0));
+    setAgility(newTeam.reduce((sum, f) => sum + f.agility, 0));
+  }
+
+   
+   
   
   return (
     <>
     <h1>zombie Fighters</h1>
     <h4>Money : {money}</h4>
-    <h4>Team Strength :</h4>
-    <h4>Team Agility : </h4>
-    <h4>Team : {team}</h4>
+    <h4>Team Strength :{strength} </h4>
+    <h4>Team Agility : {agility} </h4>
+    <h4>Team:</h4>
+      {team.length === 0 ? (
+        <p>Pick some team members!</p>
+      ) : (
+       <h4> {team.map((fighter) => fighter.name).join(", ")}</h4>)}
+
+
+
+
     <h4>Fighters</h4>
     <section>
-      {zombieFighters.map((fighter) => (
-        <div key={fighter.name}>
-          <ZombieFighters 
-            price={fighter.price}
-            strength={fighter.strength}
-            agility={fighter.agility}
-            img={fighter.img}
-          />
-          <button onClick={() => handleAddFighter(fighter)}>
-            Add 
-          </button>
-        </div>
-      ))}
+    {zombieFighters.map((fighter) => (
+  <div> 
+    <ZombieFighters 
+    name = {fighter.name}
+    price={fighter.price}
+     strength={fighter.strength}
+    agility={fighter.agility}
+    img={fighter.img} />
+    <button onClick={() => handleAddFighter(fighter)}>Add</button>
+    <button onClick={() => handleRemoveFighter(fighter)}>Remove</button>
+  </div>
+))}
+
     </section>
+      
   </>
 );
   
